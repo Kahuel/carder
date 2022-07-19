@@ -6,9 +6,9 @@ import { Player, Enemy } from "components";
 export const BattleField: React.FC = () => {
   const dispatch = useDispatch<Dispatch>();
 
-  useEffect(() => {
+  const initBattle = () => {
     dispatch.combat.initBattle();
-  }, []);
+  };
 
   return (
     <div>
@@ -17,6 +17,15 @@ export const BattleField: React.FC = () => {
       </div>
       <div>
         <Enemy />
+      </div>
+      <div>
+        <button
+          onClick={() => {
+            initBattle();
+          }}
+        >
+          Start battle.
+        </button>
       </div>
     </div>
   );

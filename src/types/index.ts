@@ -3,8 +3,8 @@ export interface Abilities {
 }
 
 export interface Action {
-  damage?: { value: number; target: "player" | "enemy" };
-  heal?: { value: number; target: "player" | "enemy" };
+  damage?: number;
+  heal?: number;
 }
 
 export interface Actions {
@@ -32,6 +32,7 @@ export interface EnemyType extends Character {
 export interface PlayerType extends Character {
   xp: number;
   items: [];
+  actions: string[];
 }
 
 export interface CombatState {

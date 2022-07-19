@@ -1,13 +1,26 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "state";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch, RootState } from "state";
 
 export const Player: React.FC = () => {
-  const player = useSelector((state: RootState) => state.combat.player);
+  const dispatch = useDispatch<Dispatch>();
+  const { player, enemy } = useSelector((state: RootState) => state.combat);
   return (
     <div>
       <p>{player?.name}</p>
       <p>HP: {player?.hp}</p>
+      <div>
+        {player?.actions.map((el: string) => (
+          <button
+            onClick={() => {
+              dispatch.combat.playerAction(el);
+            }}
+            disabled={enemy.hp < 1}
+          >
+            {el}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
