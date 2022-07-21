@@ -1,5 +1,0 @@
-globalStore / combatStore
-
-type ememy action
-
-добавить target в действия

@@ -1,6 +1,9 @@
+import { actionsCost } from "components/actions/actions";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "state";
+
+//лютый костыль с энергией
 
 export const Player: React.FC = () => {
   const dispatch = useDispatch<Dispatch>();
@@ -9,17 +12,26 @@ export const Player: React.FC = () => {
     <div>
       <p>{player?.name}</p>
       <p>HP: {player?.hp}</p>
+      <p>Energy: {player?.energy}</p>
       <div>
-        {player?.actions.map((el: string) => (
+        {player?.actions.map((actionName: string) => (
           <button
             onClick={() => {
-              dispatch.combat.playerAction(el);
+              dispatch.combat.playerAction(actionName);
             }}
-            disabled={enemy.hp < 1}
+            disabled={enemy.hp < 1 || player.energy < actionsCost[actionName]}
           >
-            {el}
+            {actionName} {actionsCost[actionName]}
           </button>
         ))}
+        <button
+          onClick={() => {
+            dispatch.combat.endTurn();
+          }}
+          disabled={enemy?.hp < 1}
+        >
+          End turn
+        </button>
       </div>
     </div>
   );

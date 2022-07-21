@@ -5,6 +5,7 @@ export interface Abilities {
 export interface Action {
   damage?: number;
   heal?: number;
+  cost?: number;
 }
 
 export interface Actions {
@@ -33,6 +34,7 @@ export interface PlayerType extends Character {
   xp: number;
   items: [];
   actions: string[];
+  energy: number;
 }
 
 export interface CombatState {

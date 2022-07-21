@@ -15,15 +15,32 @@ export const combat = createModel<RootModel>()({
     initBattle: (_: void, state) => {
       dispatch.combat.updateCombat({ player: { ...state.player }, enemy: getEnemy(), turn: 1 });
     },
-    playerAction: (payload: string, state) => {
+
+    playerAction: (actionName: string, state) => {
       const combatPlayer = state.combat.player;
       const combatEnemy = state.combat.enemy;
-      const { hp: playerHP, strength: playerStrength } = combatPlayer;
-      const { heal = 0, damage = 0 }: Action = actions(playerStrength, playerHP)[payload];
+      const { hp: playerHP, strength: playerStrength, energy: playerEnergy } = combatPlayer;
+      const { heal = 0, damage = 0, cost = 1 }: Action = actions(playerStrength, playerHP)[actionName];
+
       const newState: CombatState = {
-        player: { ...combatPlayer, hp: playerHP + heal },
+        ...state.combat,
+        player: { ...combatPlayer, hp: playerHP + heal, energy: playerEnergy - cost },
         enemy: { ...combatEnemy, hp: combatEnemy.hp - damage },
-        turn: state.combat.turn + 1,
+      };
+      dispatch.combat.updateCombat(newState);
+    },
+
+    endTurn: (_: void, state) => {
+      const combatPlayer = state.combat.player;
+      const combatEnemy = state.combat.enemy;
+      const { hp: enemyHP, strength: enemyStrength, pattern } = combatEnemy;
+      const actionName = pattern[(state.combat.turn - 1) % pattern.length];
+      const { heal = 0, damage = 0 }: Action = actions(enemyStrength, enemyHP)[actionName];
+
+      const newState: CombatState = {
+        ...state.combat,
+        player: { ...combatPlayer, hp: combatPlayer.hp - damage, energy: state.player.energy },
+        enemy: { ...combatEnemy, hp: combatEnemy.hp + heal },
       };
       dispatch.combat.updateCombat(newState);
     },
