@@ -5,20 +5,43 @@ import { Player, Enemy } from "components";
 
 export const BattleField: React.FC = () => {
   const dispatch = useDispatch<Dispatch>();
-  const { player, enemy } = useSelector((state: RootState) => state.combat);
+  const playerHp = useSelector((state: RootState) => state.combat.player?.hp);
+  const enemyHp = useSelector((state: RootState) => state.combat.enemy?.hp);
 
   const initBattle = () => {
     dispatch.combat.initBattle();
   };
 
+  useEffect(() => {
+    if (enemyHp < 1) {
+      dispatch.player.addToKilledCounter();
+    }
+  }, [enemyHp]);
+
+  if (playerHp < 1) {
+    return (
+      <div>
+        <p style={{ color: "red" }}>You died.</p>
+        <button
+          onClick={() => {
+            dispatch.player.playerDied();
+            dispatch.combat.initBattle();
+          }}
+        >
+          Restart.
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div>
-      {player && (
+      {playerHp !== undefined && (
         <div>
           <Player />
         </div>
       )}
-      {enemy && (
+      {enemyHp !== undefined && (
         <div>
           <Enemy />
         </div>
@@ -28,7 +51,7 @@ export const BattleField: React.FC = () => {
           onClick={() => {
             initBattle();
           }}
-          disabled={enemy?.hp > 0 && player?.hp > 0}
+          disabled={enemyHp > 0 && playerHp > 0}
         >
           Start battle.
         </button>
