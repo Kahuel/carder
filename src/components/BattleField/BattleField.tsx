@@ -16,7 +16,7 @@ export const BattleField: React.FC = () => {
     if (enemyHp < 1) {
       dispatch.player.addToKilledCounter();
     }
-  }, [enemyHp]);
+  }, [enemyHp, dispatch.player]);
 
   if (playerHp < 1) {
     return (

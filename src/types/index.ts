@@ -5,7 +5,7 @@ export interface Abilities {
 export interface Action {
   damage?: number;
   heal?: number;
-  cost?: number;
+  cost: number;
 }
 
 export interface Actions {

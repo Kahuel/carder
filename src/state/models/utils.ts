@@ -1,5 +1,5 @@
 import { RootState } from "state";
-import { actions } from "components/actions/actions";
+import { actions } from "actions/actions";
 import { Action } from "types";
 
 export const getCombatStates = (state: RootState, actionName?: string) => {
@@ -13,5 +13,16 @@ export const getCombatStates = (state: RootState, actionName?: string) => {
 
   const { heal: healDealt = 0, damage: damageDealt = 0, cost: energySpend = 1 }: Action = currentAction;
 
-  return { player, enemy, turn, playerHP, playerCurrentEnergy, playerInitEnergy, enemyHP, damageDealt, healDealt, energySpend };
+  return {
+    turn,
+    damageDealt,
+    healDealt,
+    energySpend,
+    player,
+    playerHP,
+    playerCurrentEnergy,
+    playerInitEnergy,
+    enemy,
+    enemyHP,
+  };
 };

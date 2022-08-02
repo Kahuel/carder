@@ -6,9 +6,3 @@ export const actions = (strength: number, hp: number): Actions => ({
   stoneThrow: { damage: strength + 2, cost: 2 },
   regeneration: { heal: regenerationCalculator(hp), cost: 1 },
 });
-
-export const actionsCost: { [key: string]: number } = {
-  attack: 1,
-  stoneThrow: 2,
-  regeneration: 1,
-};

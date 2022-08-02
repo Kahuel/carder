@@ -4,6 +4,7 @@ import { CombatState } from "types";
 import { getEnemy } from "enemies/utils";
 import { getCombatStates } from "./utils";
 
+
 export const combat = createModel<RootModel>()({
   state: {} as CombatState,
   reducers: {
