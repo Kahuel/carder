@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "state";
 import { Player, Enemy } from "components";
+import { LosingScreen, WinningScreen } from "./components";
 
 export const BattleField: React.FC = () => {
   const dispatch = useDispatch<Dispatch>();
@@ -19,19 +20,10 @@ export const BattleField: React.FC = () => {
   }, [enemyHp]);
 
   if (playerHp < 1) {
-    return (
-      <div>
-        <p style={{ color: "red" }}>You died.</p>
-        <button
-          onClick={() => {
-            dispatch.player.playerDied();
-            dispatch.combat.initBattle();
-          }}
-        >
-          Restart.
-        </button>
-      </div>
-    );
+    return <LosingScreen />;
+  }
+  if (enemyHp < 1) {
+    return <WinningScreen />;
   }
 
   return (
@@ -46,16 +38,17 @@ export const BattleField: React.FC = () => {
           <Enemy />
         </div>
       )}
-      <div>
-        <button
-          onClick={() => {
-            initBattle();
-          }}
-          disabled={enemyHp > 0 && playerHp > 0}
-        >
-          Start battle.
-        </button>
-      </div>
+      {!playerHp && (
+        <div>
+          <button
+            onClick={() => {
+              initBattle();
+            }}
+          >
+            Start battle.
+          </button>
+        </div>
+      )}
     </div>
   );
 };

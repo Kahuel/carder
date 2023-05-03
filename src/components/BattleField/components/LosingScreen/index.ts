@@ -1,0 +1,1 @@
+export { LosingScreen } from "./LosingScreen";
