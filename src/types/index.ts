@@ -31,6 +31,7 @@ export interface EnemyType extends Character {
 }
 
 export interface PlayerType extends Character {
+  enemyKilled: number;
   xp: number;
   items: [];
   actions: string[];

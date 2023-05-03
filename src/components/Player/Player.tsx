@@ -7,19 +7,21 @@ import { Dispatch, RootState } from "state";
 
 export const Player: React.FC = () => {
   const dispatch = useDispatch<Dispatch>();
-  const { player, enemy } = useSelector((state: RootState) => state.combat);
+  const player = useSelector((state: RootState) => state.combat.player);
+  const enemyHP = useSelector((state: RootState) => state.combat.enemy.hp);
   return (
     <div>
       <p>{player.name}</p>
       <p>HP: {player.hp}</p>
       <p>Energy: {player.energy}</p>
+      <p>Enemy killed: {player.enemyKilled}</p>
       <div>
         {player.actions.map((actionName: string) => (
           <button
             onClick={() => {
               dispatch.combat.playerAction(actionName);
             }}
-            disabled={enemy.hp < 1 || player.energy < actionsCost[actionName]}
+            disabled={enemyHP < 1 || player.energy < actionsCost[actionName]}
           >
             {actionName} {actionsCost[actionName]}
           </button>
@@ -28,7 +30,7 @@ export const Player: React.FC = () => {
           onClick={() => {
             dispatch.combat.endTurn();
           }}
-          disabled={enemy.hp < 1}
+          disabled={enemyHP < 1}
         >
           End turn
         </button>

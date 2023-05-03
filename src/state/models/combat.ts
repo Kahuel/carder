@@ -1,8 +1,7 @@
 import { createModel } from "@rematch/core";
 import { RootModel } from ".";
-import { Action, CombatState } from "types";
+import { CombatState } from "types";
 import { getEnemy } from "enemies/utils";
-import { actions } from "components/actions/actions";
 import { getCombatStates } from "./utils";
 
 export const combat = createModel<RootModel>()({
